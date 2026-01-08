@@ -50,7 +50,7 @@ exports.handler = async function(event, context) {
 
         console.log('[BACKEND] ✅ API Key 已載入 (長度:', apiKey.length, '字符)');
         
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${apiKey}`;
         console.log('[BACKEND] 🔗 Google API URL 已準備');
         
         const prompt = `
