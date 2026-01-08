@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <title>信用卡回饋查詢 | Rewards Checker</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Outfit:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css" />
+    <!-- Font Awesome for Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- PWA Settings -->
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#e63946" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <link rel="apple-touch-icon" href="images/icon-192.png" />
+  </head>
+  <body>
+    <div class="app-container">
+      <header class="hero-section">
+        <div class="glass-card header-content">
+          <div class="logo-area">
+            <i class="fa-solid fa-credit-card logo-icon"></i>
+            <h1>信用卡<br /><span class="highlight">刷卡方案</span></h1>
+          </div>
+          <p class="subtitle">輸入消費通路，立即找出最佳回饋方案</p>
+        </div>
+      </header>
+
+      <main class="main-content">
+        <div class="search-container">
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input
+              type="search"
+              id="merchantInput"
+              placeholder="例如：Uber Eats, 全家, Agoda..."
+              autocomplete="off"
+              enterkeyhint="search"
+              inputmode="search"
+            />
+            <button id="clearBtn" class="clear-btn" title="清空搜尋">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+            <button id="searchBtn">查詢</button>
+          </div>
+          <div id="suggestions" class="suggestions-box hidden"></div>
+        </div>
+
+        <div id="resultContainer" class="result-container hidden">
+          <!-- Dynamic Content Will Be Injected Here -->
+        </div>
+
+        <div id="defaultState" class="default-state">
+          <p class="hint-text">試試看搜尋：</p>
+          <div class="tags-cloud">
+            <span class="tag" onclick="quickSearch('Uber Eats')"
+              >🍔 Uber Eats</span
+            >
+            <span class="tag" onclick="quickSearch('Netflix')">🎬 Netflix</span>
+            <span class="tag" onclick="quickSearch('新光三越')"
+              >🛍️ 新光三越</span
+            >
+            <span class="tag" onclick="quickSearch('日本')">🇯🇵 日本旅遊</span>
+            <span class="tag" onclick="quickSearch('高鐵')">🚅 高鐵</span>
+          </div>
+        </div>
+      </main>
+
+      <footer>
+        <p>© 2026 Rewards Checker | Unofficial Tool</p>
+      </footer>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/script.js"></script>
+  </body>
+</html>
