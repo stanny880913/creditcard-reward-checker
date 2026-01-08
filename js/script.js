@@ -202,7 +202,7 @@ function renderComparison(query, taishin, cathay) {
                 <p style="color: #666; margin-bottom: 15px; font-size: 0.95rem;">找不到精確結果？讓 AI 幫你分析！</p>
                 <button id="askAiBtn" class="action-btn" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 12px 28px; border-radius: 50px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(118, 75, 162, 0.3); display: inline-flex; align-items: center; gap: 8px; font-size: 1rem; transition: transform 0.2s;">
                     <i class="fa-solid fa-wand-magic-sparkles"></i> 
-                    <span>AI 智慧判斷</span>
+                    <span>AI 智慧推薦</span>
                 </button>
             </div>
         `;
