@@ -342,25 +342,33 @@ async function callNetlifyAI(query) {
     const btn = document.getElementById('askAiBtn');
     const loading = document.getElementById('ai-loading');
     
+    console.log('[AI] 🤖 使用者觸發 AI 智慧判斷');
+    console.log('[AI] 📝 查詢內容:', query);
+    
     if (btn) btn.style.display = 'none';
     if (loading) loading.classList.remove('hidden');
 
     try {
+        console.log('[AI] 🌐 正在連接 Netlify Function...');
         const response = await fetch('/.netlify/functions/ask-ai', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ query: query })
         });
         
+        console.log('[AI] ✅ 收到回應，狀態碼:', response.status);
         const data = await response.json();
+        console.log('[AI] 📦 AI 回傳結果:', data);
         
         if (data.result && data.result !== "null") {
+            console.log('[AI] 🎯 AI 推薦的卡片 ID:', data.result);
             performSearch(data.result); 
         } else {
+            console.warn('[AI] ⚠️ AI 無法判斷或回傳 null');
             if (loading) loading.innerHTML = '<i class="fa-solid fa-face-sad-tear"></i> AI 也找不到適合的方案，建議直接查看一般消費權益。';
         }
     } catch (e) {
-        console.error("AI Error", e);
+        console.error('[AI] ❌ 連線失敗:', e);
         if (loading) loading.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> 連線錯誤，請稍後再試。';
     }
 }
