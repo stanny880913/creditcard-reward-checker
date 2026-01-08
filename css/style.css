@@ -1,23 +1,20 @@
 :root {
-    --primary: 350 85% 55%;
-    /* Rich Red */
+    --primary: 350 85% 55%; /* Taishin Red */
     --primary-dark: 350 90% 40%;
-    --cathay-green: 146 100% 28%; /* #009045 Official Green */
-    --secondary: 0 0% 10%;
-    /* Almost Black */
-    --accent: 40 100% 50%;
-    /* Gold/Yellow for alerts */
-    --bg-gradient-start: 220 20% 98%;
-    --bg-gradient-end: 220 30% 94%;
-    --glass-bg: rgba(255, 255, 255, 0.9);
-    --glass-border: rgba(255, 255, 255, 0.8);
-    --text-main: 220 20% 20%;
-    --text-light: 220 10% 45%;
-    --radius-lg: 24px;
-    --radius-md: 16px;
-    --radius-sm: 8px;
-    --shadow-soft: 0 10px 40px -10px rgba(0, 0, 0, 0.08);
-    --shadow-hover: 0 20px 50px -10px rgba(0, 0, 0, 0.12);
+    --cathay-green: 146 100% 28%; /* Cathay Green */
+    --brand-main: 220 30% 25%; /* Professional Deep Blue-Grey */
+    --brand-accent: 215 90% 60%; /* Subtle UI accent */
+    --bg-gradient-start: 220 33% 98%;
+    --bg-gradient-end: 220 25% 94%;
+    --glass-bg: rgba(255, 255, 255, 0.85);
+    --glass-border: rgba(255, 255, 255, 0.9);
+    --text-main: 220 35% 15%;
+    --text-light: 220 15% 45%;
+    --radius-lg: 28px;
+    --radius-md: 18px;
+    --radius-sm: 10px;
+    --shadow-soft: 0 12px 40px -10px rgba(15, 23, 42, 0.08);
+    --shadow-hover: 0 20px 50px -12px rgba(15, 23, 42, 0.12);
 }
 
 * {
@@ -76,22 +73,23 @@ body {
 
 .logo-icon {
     font-size: 3rem;
-    color: hsl(var(--primary));
+    color: hsl(var(--brand-main));
     margin-bottom: 15px;
-    background: linear-gradient(45deg, hsl(var(--primary)), hsl(var(--primary-dark)));
+    background: linear-gradient(135deg, hsl(var(--brand-main)), hsl(var(--brand-accent)));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 h1 {
-    font-size: 2.2rem;
+    font-size: 2.3rem;
     font-weight: 800;
     line-height: 1.2;
-    color: hsl(var(--secondary));
+    color: hsl(var(--brand-main));
+    letter-spacing: -0.02em;
 }
 
 .highlight {
-    color: hsl(var(--primary));
+    color: hsl(var(--brand-accent));
     position: relative;
     display: inline-block;
 }
@@ -103,7 +101,7 @@ h1 {
     left: 0;
     width: 100%;
     height: 8px;
-    background: hsl(var(--primary) / 0.1);
+    background: hsl(var(--brand-accent) / 0.1);
     z-index: -1;
     transform: skewX(-10deg);
 }
@@ -118,35 +116,54 @@ h1 {
     flex: 1;
 }
 
-/* Search Box */
-.search-container {
+/* Search Card Container */
+.search-card {
     position: relative;
-    margin-bottom: 40px;
-    z-index: 100;
+    margin-bottom: 35px;
+    z-index: 50;
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid rgba(0, 0, 0, 0.02);
+    animation: slideDown 0.4s ease-out;
 }
 
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Search Box */
 .search-box {
     position: relative;
     display: flex;
     align-items: center;
-    background: white;
-    border-radius: 50px;
-    padding: 10px 10px 10px 25px; /* Slightly larger padding */
-    box-shadow: 0 15px 35px rgba(220, 20, 60, 0.15);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: #f1f3f6;
+    border-radius: 18px;
+    padding: 10px 14px;
     border: 2px solid transparent;
+    transition: all 0.3s ease;
 }
 
 .search-box:focus-within {
-    transform: translateY(-2px);
-    box-shadow: 0 20px 40px rgba(220, 20, 60, 0.2);
-    border-color: hsl(var(--primary) / 0.3);
+    transform: none;
+    background: white;
+    border-color: hsl(var(--brand-accent) / 0.4);
+    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.08);
 }
 
 .search-icon {
-    color: hsl(var(--text-light));
-    font-size: 1.2rem;
-    margin-right: 15px;
+    color: #999;
+    font-size: 1rem;
+    margin-right: 12px;
+    flex-shrink: 0;
 }
 
 input {
@@ -200,7 +217,7 @@ input[type="search"]::-webkit-search-results-decoration {
 }
 
 button#searchBtn {
-    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-dark)));
+    background: linear-gradient(135deg, hsl(var(--brand-main)), #1e293b);
     color: white;
     border: none;
     padding: 12px 32px; /* Wider button */
@@ -209,12 +226,13 @@ button#searchBtn {
     font-size: 1rem;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 5px 15px hsl(var(--primary) / 0.3);
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.2);
 }
 
 button#searchBtn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px hsl(var(--primary) / 0.4);
+    box-shadow: 0 12px 25px rgba(15, 23, 42, 0.25);
+    filter: brightness(1.1);
 }
 
 button#searchBtn:active {
@@ -224,20 +242,24 @@ button#searchBtn:active {
 /* Suggestions */
 .suggestions-box {
     position: absolute;
-    top: 100%;
-    left: 20px;
-    right: 20px;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
     background: white;
-    border-radius: 0 0 var(--radius-md) var(--radius-md);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12); /* Stronger shadow */
-    margin-top: -20px;
-    padding-top: 25px;
-    overflow: hidden;
-    z-index: -1;
+    border-radius: 12px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 1000;
+    margin-top: 0;
+}
+
+.suggestions-box.hidden {
     opacity: 0;
     transform: translateY(-10px);
-    transition: all 0.2s ease;
     visibility: hidden;
+    transition: all 0.2s ease;
+    pointer-events: none;
 }
 
 .suggestions-box.active {
@@ -260,36 +282,298 @@ button#searchBtn:active {
 }
 
 .suggestion-item:hover {
-    background: hsl(var(--bg-gradient-start));
-    color: hsl(var(--primary));
+    background: #f1f3f6;
+    color: hsl(var(--brand-accent));
     padding-left: 28px; /* Slide effect */
 }
 
 .match-highlight {
+    color: hsl(var(--brand-accent));
     font-weight: 700;
-    color: hsl(var(--primary));
+}
+
+/* 金額輸入區塊 */
+.amount-input-wrapper {
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.amount-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.amount-label i {
+    color: hsl(var(--brand-accent));
+    font-size: 1rem;
+}
+
+.optional {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    font-weight: normal;
+}
+
+.amount-input-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f1f3f6;
+    border-radius: 12px;
+    padding: 10px 14px;
+    border: 1.5px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.amount-input-group:focus-within {
+    border-color: hsl(var(--brand-accent) / 0.4);
+    background: #fff;
+    box-shadow: 0 5px 15px rgba(15, 23, 42, 0.05);
+}
+
+#amountInput {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 0.95rem;
+    background: transparent;
+    color: hsl(var(--text-main));
+}
+
+#amountInput::placeholder {
+    color: #ccc;
+}
+
+#amountInput::-webkit-outer-spin-button,
+#amountInput::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+#amountInput[type=number] {
+    -moz-appearance: textfield;
+}
+
+.currency-unit {
+    color: #999;
+    font-weight: 500;
+    font-size: 0.9rem;
+    white-space: nowrap;
 }
 
 /* Results */
 .result-card {
     background: white;
-    border-radius: var(--radius-lg);
-    padding: 30px;
-    box-shadow: var(--shadow-soft);
-    animation: slideUp 0.4s ease-out;
-    border: 1px solid rgba(0, 0, 0, 0.03);
+    border-radius: 28px;
+    padding: 24px;
+    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
+    animation: slideUp 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.result-card::before {
+.result-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
+}
+
+/* Glassmorphism background for themes */
+.result-card::after {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 6px;
-    background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--primary-dark)));
+    top: -50%;
+    right: -50%;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, var(--theme-color-light) 0%, transparent 70%);
+    opacity: 0.15;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.bank-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+}
+
+.taishin-theme .bank-tag { background: hsl(var(--primary) / 0.1); color: hsl(var(--primary)); }
+.cathay-theme .bank-tag { background: hsl(var(--cathay-green) / 0.1); color: hsl(var(--cathay-green)); }
+
+.card-title-area {
+    position: relative;
+    z-index: 1;
+}
+
+.merchant-name {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #1a1a1a;
+    line-height: 1.3;
+}
+
+.rate-container {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.rate-highlight {
+    font-size: 2.5rem !important;
+    font-weight: 900 !important;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, var(--theme-color-main), var(--theme-color-dark));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.rate-unit {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--theme-color-main);
+}
+
+.result-card.taishin-theme {
+    --theme-color-main: hsl(var(--primary));
+    --theme-color-dark: hsl(var(--primary-dark));
+    --theme-color-light: hsl(var(--primary) / 0.2);
+    border-top: 5px solid var(--theme-color-main);
+}
+
+.result-card.cathay-theme {
+    --theme-color-main: hsl(var(--cathay-green));
+    --theme-color-dark: #006b33;
+    --theme-color-light: hsl(var(--cathay-green) / 0.2);
+    border-top: 5px solid var(--theme-color-main);
+}
+
+.benefit-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #555;
+    padding: 10px 16px;
+    background: #f8f9fa;
+    border-radius: 16px;
+    border: 1px solid #eee;
+}
+
+.benefit-badge i {
+    color: var(--theme-color-main);
+}
+
+.strategy-box {
+    background: white;
+    padding: 16px;
+    border-radius: 20px;
+    border: 1.5px dashed #eee;
+    position: relative;
+}
+
+.strategy-title {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #999;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.strategy-text {
+    font-size: 0.95rem;
+    color: #444;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+.reward-calc-mini {
+    background: linear-gradient(135deg, var(--theme-color-main), var(--theme-color-dark));
+    color: white;
+    padding: 14px 20px;
+    border-radius: 20px;
+    margin-top: 8px;
+    box-shadow: 0 8px 20px -5px var(--theme-color-light);
+}
+
+.reward-calc-header {
+    font-size: 0.75rem;
+    opacity: 0.9;
+    margin-bottom: 4px;
+}
+
+.reward-calc-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.reward-calc-amount {
+    font-size: 1.2rem;
+    font-weight: 800;
+}
+
+/* Others Section Updates */
+.others-section {
+    margin-top: 8px;
+}
+
+.others-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #777;
+    margin-bottom: 10px;
+    padding-left: 4px;
+}
+
+.other-plan-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    background: #fdfdfd;
+    border-radius: 12px;
+    margin-bottom: 6px;
+    border: 1px solid #f0f0f0;
+    transition: all 0.2s;
+}
+
+.other-plan-row:hover {
+    background: white;
+    border-color: #ddd;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+
+.other-name {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #555;
+}
+
+.other-rate {
+    font-weight: 700;
+    color: #333;
+    font-size: 0.9rem;
 }
 
 @keyframes slideUp {
@@ -297,96 +581,28 @@ button#searchBtn:active {
         opacity: 0;
         transform: translateY(20px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
 
-.result-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-    border-bottom: 1px solid #f0f0f0;
-    padding-bottom: 20px;
-}
-
-.merchant-name {
-    font-size: 1.5rem;
-    font-weight: 800;
-}
-
-.plan-badge {
-    background: padding-box;
-    background-color: hsl(var(--primary) / 0.1);
-    color: hsl(var(--primary-dark));
-    padding: 6px 16px;
-    border-radius: 20px;
-    font-weight: 600;
-    font-size: 0.9rem;
-}
-
-.result-body {
-    display: grid;
-    gap: 20px;
-}
-
-.info-row {
-    display: flex;
-    align-items: flex-start;
-}
-
-.info-icon {
-    width: 40px;
-    height: 40px;
-    background: hsl(var(--bg-gradient-start));
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 15px;
-    color: hsl(var(--text-light));
-    flex-shrink: 0;
-}
-
-.info-content h3 {
-    font-size: 0.9rem;
-    color: hsl(var(--text-light));
-    margin-bottom: 5px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-}
-
-.info-content p {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: hsl(var(--text-main));
-}
-
-.rate-highlight {
-    font-size: 2rem !important;
-    font-weight: 800 !important;
-    color: hsl(var(--primary)) !important;
-}
-
-.instruction-box {
-    background: hsl(var(--bg-gradient-start));
-    padding: 20px;
-    border-radius: var(--radius-md);
-    margin-top: 10px;
-}
-
-.instruction-box p {
-    font-size: 1rem !important;
-    font-weight: 400 !important;
-}
-
 /* Default State / Tags */
 .default-state {
     text-align: center;
-    margin-top: 60px;
+    margin-top: 50px;
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .hint-text {
@@ -414,10 +630,10 @@ button#searchBtn:active {
 }
 
 .tag:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    border-color: hsl(var(--primary) / 0.2);
-    color: hsl(var(--primary));
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.1);
+    border-color: hsl(var(--brand-accent) / 0.3);
+    color: hsl(var(--brand-accent));
 }
 
 /* Responsive */
@@ -458,30 +674,6 @@ button#searchBtn:active {
     .result-grid {
         grid-template-columns: 1fr;
     }
-}
-
-/* Bank Themes */
-.result-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.result-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-hover);
-}
-
-.result-card.taishin-theme {
-    border-top: 6px solid hsl(var(--primary));
-}
-
-.result-card.taishin-theme::before {
-    display: none;
-}
-
-/* Remove old generic top border */
-
-.result-card.cathay-theme {
-    border-top: 6px solid hsl(var(--cathay-green));
 }
 
 .result-card.cathay-theme::before {

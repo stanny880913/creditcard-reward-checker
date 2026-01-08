@@ -18,7 +18,7 @@ const taishinPlans = [
         merchants: [
             "Taiwan Pay", "神腦", "燦坤", "全國電子", "麥當勞", "美廉社", "大樹藥局", "杏一醫療"
         ],
-        instruction: "限使用 **台灣Pay** 掃碼支付。",
+        instruction: "限使用 **台灣Pay** 電子支付。",
         icon: "fa-qrcode",
         bank: "Taishin"
     },
@@ -44,7 +44,7 @@ const taishinPlans = [
     },
     {
         id: "taishin_daily",
-        name: "天天刷 (Daily)",
+        name: "天天刷",
         rate: "3.3%",
         merchants: [
             "7-11", "全家", "家樂福", "大買家", "唐吉軻德", "LOPIA",
@@ -58,7 +58,7 @@ const taishinPlans = [
     },
     {
         id: "taishin_big",
-        name: "大筆刷 (Shopping)",
+        name: "大筆刷",
         rate: "3.3%",
         merchants: [
             "新光三越", "skm pay", "遠東百貨", "遠東SOGO", "漢神巨蛋", "漢神百貨", "微風", "台北101",
@@ -83,7 +83,7 @@ const taishinPlans = [
     },
     {
         id: "taishin_dining",
-        name: "好饗刷 (Food/Fun)",
+        name: "好饗刷",
         rate: "3.3%",
         merchants: [
             "全臺餐飲", "王品瘋Pay", "Uber Eats", "Foodpanda",
@@ -97,7 +97,7 @@ const taishinPlans = [
     },
     {
         id: "taishin_digital",
-        name: "數趣刷 (Digital)",
+        name: "數趣刷",
         rate: "3.3%",
         merchants: [
             "蝦皮", "momo", "酷澎", "Coupang", "PChome", "淘寶", "Amazon", "東森", "博客來",
@@ -112,7 +112,7 @@ const taishinPlans = [
     },
     {
         id: "taishin_travel",
-        name: "玩旅刷 (Travel)",
+        name: "玩旅刷",
         rate: "3.3%",
         merchants: [
             "海外消費", "中華航空", "華信航空", "華信", "長榮航空", "星宇航空", "台灣虎航", "國泰航空",
@@ -128,7 +128,7 @@ const taishinPlans = [
     },
     {
         id: "taishin_holiday",
-        name: "假日刷 (Weekend)",
+        name: "假日刷",
         rate: "2%",
         merchants: [],
         instruction: "週末假日不限通路 (一般消費/保費/LINE Pay)。",
@@ -140,7 +140,7 @@ const taishinPlans = [
 const cathayPlans = [
     {
         id: "cathay_megaport",
-        name: "瘋大港 (Megaport)",
+        name: "瘋大港",
         rate: "3.5% / 10%",
         merchants: [
             // 售票 (限 2025/12/16~18)
@@ -160,7 +160,7 @@ const cathayPlans = [
     },
     {
         id: "cathay_digital",
-        name: "玩數位 (Digital)",
+        name: "玩數位",
         rate: "3%",
         merchants: [
             "ChatGPT", "Canva", "Claude", "Cursor", "Duolingo", "Gamma", "Gemini", "Notion", "Perplexity", "Speak",
@@ -173,7 +173,7 @@ const cathayPlans = [
     },
     {
         id: "cathay_shopping",
-        name: "樂饗購 (Dining & Shopping)",
+        name: "樂饗購",
         rate: "3%",
         merchants: [
             "遠東SOGO", "遠東Garden City", "新光三越", "遠東百貨", "台北101", "BELLAVITA", "微風",
@@ -199,7 +199,7 @@ const cathayPlans = [
     },
     {
         id: "cathay_travel",
-        name: "趣旅行 (Travel)",
+        name: "趣旅行",
         rate: "3%",
         merchants: [
             // 補上遺漏的飯店集團
@@ -216,7 +216,7 @@ const cathayPlans = [
     },
     {
         id: "cathay_select",
-        name: "集精選 (Selected)",
+        name: "集精選",
         rate: "2%",
         merchants: [
             "家樂福", "LOPIA", "全聯", "中油直營",
@@ -229,7 +229,7 @@ const cathayPlans = [
     },
     {
         id: "cathay_birthday_10",
-        name: "慶生月 (Birthday) - 精選10%",
+        name: "慶生月 - 精選10%",
         rate: "10%",
         merchants: [
             // 宜花東美食
@@ -259,7 +259,7 @@ const cathayPlans = [
     },
     {
         id: "cathay_birthday_35",
-        name: "慶生月 (Birthday) - 指定3.5%",
+        name: "慶生月 - 指定3.5%",
         rate: "3.5%",
         merchants: [
             "新光三越", "Uber Eats", "Klook", "FunNow"
@@ -271,7 +271,7 @@ const cathayPlans = [
     },
     {
         id: "cathay_kids",
-        name: "童樂匯 (Family)",
+        name: "童樂匯",
         rate: "5% / 10%",
         merchants: [
             // 補齊 5% 親子餐廳與 10% 品牌

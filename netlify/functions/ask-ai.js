@@ -4,7 +4,7 @@
 const cardDataSummary = [
     // Taishin
     { id: "taishin_pay_app", desc: "台新Pay綁定支付。適用: 新光三越, 7-11, 全家, 康是美, IKEA" },
-    { id: "taishin_pay_taiwan", desc: "台灣Pay掃碼支付。適用: 麥當勞, 大樹藥局, 燦坤, 全國電子" },
+    { id: "taishin_pay_taiwan", desc: "台灣Pay電子支付。適用: 麥當勞, 大樹藥局, 燦坤, 全國電子" },
     { id: "taishin_pay_plus", desc: "韓國超商與海外交易免手續費。適用: 韓國GS25, DAISO" },
     { id: "taishin_line", desc: "LINE Pay 綁定一般消費" },
     { id: "taishin_daily", desc: "天天刷。適用: 加油(中油/全國), 超商(台新Pay), 全聯, 寶雅, 屈臣氏, 藥局, 交通(台鐵/高鐵/Uber)" },

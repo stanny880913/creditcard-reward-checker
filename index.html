@@ -45,13 +45,15 @@
       </header>
 
       <main class="main-content">
-        <div class="search-container">
+        <!-- 搜尋與金額輸入卡片 -->
+        <div class="search-card">
+          <!-- 搜尋框 -->
           <div class="search-box">
             <i class="fa-solid fa-magnifying-glass search-icon"></i>
             <input
               type="search"
               id="merchantInput"
-              placeholder="例如：Uber Eats, 全家, Agoda..."
+              placeholder="搜尋消費通路、商家..."
               autocomplete="off"
               enterkeyhint="search"
               inputmode="search"
@@ -61,7 +63,28 @@
             </button>
             <button id="searchBtn">查詢</button>
           </div>
+
+          <!-- 建議框 -->
           <div id="suggestions" class="suggestions-box hidden"></div>
+
+          <!-- 金額輸入框 -->
+          <div class="amount-input-wrapper">
+            <div class="amount-label">
+              <i class="fa-solid fa-calculator"></i>
+              <span>消費金額</span>
+              <span class="optional">(選填)</span>
+            </div>
+            <div class="amount-input-group">
+              <input
+                type="number"
+                id="amountInput"
+                placeholder="金額（如：500）"
+                min="0"
+                step="1"
+              />
+              <span class="currency-unit">元</span>
+            </div>
+          </div>
         </div>
 
         <div id="resultContainer" class="result-container hidden">
