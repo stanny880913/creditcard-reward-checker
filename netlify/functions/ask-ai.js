@@ -1,5 +1,7 @@
 // netlify/functions/ask-ai.js
 
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
 // 簡化版資料摘要 (Hardcoded for serverless function efficiency)
 const cardDataSummary = [
     // Taishin
@@ -37,9 +39,9 @@ exports.handler = async function(event, context) {
         const userQuery = body.query;
         console.log('[BACKEND] 📨 接收到查詢:', userQuery);
         
-        // API Key will come from Environment Variable in Netlify Dashboard
-        const apiKey = process.env.GOOGLE_API_KEY; 
-
+        // 初始化 Google Generative AI
+        const apiKey = process.env.GOOGLE_API_KEY;
+        
         if (!apiKey) {
             console.error('[BACKEND] ❌ 環境變數 GOOGLE_API_KEY 未設定');
             return { 
@@ -50,8 +52,9 @@ exports.handler = async function(event, context) {
 
         console.log('[BACKEND] ✅ API Key 已載入 (長度:', apiKey.length, '字符)');
         
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-        console.log('[BACKEND] 🔗 Google API URL 已準備');
+        const genAI = new GoogleGenerativeAI(apiKey);
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        console.log('[BACKEND] 🔗 模型已初始化: gemini-1.5-flash');
         
         const prompt = `
             你是一個信用卡推薦助手。
@@ -73,27 +76,15 @@ exports.handler = async function(event, context) {
         `;
 
         console.log('[BACKEND] 📤 正在呼叫 Google Gemini API...');
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-        });
-
-        console.log('[BACKEND] 📥 收到 Google 回應，狀態碼:', response.status);
-        const data = await response.json();
-
-        // 檢查 Google 是否回傳錯誤 (例如 API Key 無效, Quota 超過等)
-        if (!response.ok) {
-            console.error('[BACKEND] ❌ Google API 錯誤:', data);
-            return {
-                statusCode: response.status, // 回傳原本的錯誤代碼 (400, 403...)
-                body: JSON.stringify({ error: data.error?.message || "Google API Error" })
-            };
-        }
+        const result = await model.generateContent(prompt);
+        
+        console.log('[BACKEND] 📥 收到 Google 回應');
+        const response = result.response;
+        const text = response.text();
         
         // 解析回應
         console.log('[BACKEND] 🔍 解析 Google 回應...');
-        let aiResult = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || "null";
+        let aiResult = text.trim();
         // 清理可能出現的引號或空白
         aiResult = aiResult.replace(/^['"`]+|['"`]+$/g, '').trim();
         console.log('[BACKEND] 🎯 AI 最終判斷結果:', aiResult);
