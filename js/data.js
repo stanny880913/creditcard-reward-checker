@@ -7,18 +7,18 @@ const taishinPlans = [
         merchants: [
             "Taishin Pay", "新光三越", "7-11", "全家", "Richart Mart", "康是美", "IKEA", "NET"
         ],
-        instruction: "限使用 **台新Pay** 綁定支付。",
+        instruction: "限使用 \"台新Pay\" 綁定支付。",
         icon: "fa-mobile-screen",
         bank: "Taishin"
     },
     {
         id: "taishin_pay_taiwan",
-        name: "Pay著刷-台灣Pay (Taiwan Pay)",
+        name: "Pay著刷-台灣Pay-TWQR 支付 (Taiwan Pay - TWQR)",
         rate: "3.8%",
         merchants: [
             "Taiwan Pay", "神腦", "燦坤", "全國電子", "麥當勞", "美廉社", "大樹藥局", "杏一醫療"
         ],
-        instruction: "限使用 **台灣Pay** 電子支付。",
+        instruction: "限使用 \"台灣Pay-TWQR\" 電子支付，在台新Pay頁面做切換。",
         icon: "fa-qrcode",
         bank: "Taishin"
     },
@@ -29,7 +29,7 @@ const taishinPlans = [
         merchants: [
             "Taishin Pay+", "韓國GS25", "emart24", "DAISO", "海外交易"
         ],
-        instruction: "海外交易/韓國超商。再享 **免1.5%手續費**。",
+        instruction: "海外交易/韓國超商。再享免1.5%手續費。",
         icon: "fa-globe",
         bank: "Taishin"
     },
@@ -38,7 +38,7 @@ const taishinPlans = [
         name: "Pay著刷",
         rate: "2.3%",
         merchants: ["LINE Pay"],
-        instruction: "LINE Pay 綁定一般消費享 2.3% 回饋。",
+        instruction: "LINE Pay 綁定一般消費享 2.3% 回饋，但在四大超商、繳費皆不在回饋範圍內。",
         icon: "fa-comments",
         bank: "Taishin"
     },
@@ -47,9 +47,9 @@ const taishinPlans = [
         name: "天天刷",
         rate: "3.3%",
         merchants: [
-            "7-11", "全家", "家樂福", "大買家", "唐吉軻德", "LOPIA",
+            "7-11 (限使用台新Pay綁定支付，單筆上限3000元)", "全家 (限使用台新Pay綁定支付，單筆上限3000元)", "家樂福", "大買家", "唐吉軻德", "LOPIA",
             "臺鐵", "高鐵", "台灣大車隊", "LINEGO", "Yoxi", "Uber", "台灣Bolt",
-            "中油直營", "全國加油", "全國特急電", "源點EVOASIS", "華城電能EVALUE", "USPACE", "Autopass", "車麻吉",
+            "中油直營", "全國加油", "台亞直營", "全國特急電", "源點EVOASIS", "華城電能EVALUE", "USPACE", "Autopass", "車麻吉",
             "寶雅", "康是美", "屈臣氏", "杏一醫療", "大樹藥局", "丁丁藥局", "佑全保健藥妝", "健康人生藥局"
         ],
         instruction: "⚠️ 7-11/全家僅限台新Pay支付，實體卡無加碼。包含加油、通勤與連鎖藥局。",
@@ -61,12 +61,12 @@ const taishinPlans = [
         name: "大筆刷",
         rate: "3.3%",
         merchants: [
-            "新光三越", "skm pay", "遠東百貨", "遠東SOGO", "漢神巨蛋", "漢神百貨", "微風", "台北101",
+            "新光三越", "skm pay", "遠東百貨", "遠東SOGO", "漢神巨蛋", "漢神百貨", "微風 (不含台北車站、台大醫院、中研院店、微風東岸)", "台北101",
             "遠東巨城", "廣三SOGO", "南紡購物中心", "京站", "三創生活", "夢時代", "統一時代",
             "DREAM PLAZA", "中友百貨", "LaLaport",
             "MITSUI OUTLET PARK", "華泰名品城", "SKM Park Outlets",
             "IKEA", "特力屋", "HOLA", "宜得利", "瑪黑家居",
-            "UNIQLO", "GU", "ZARA", "NET", "lululemon"
+            "UNIQLO", "GU", "ZARA", "NET", "lululemon (不含百貨的店中店)"
         ],
         instruction: "百貨/Outlet/居家/時尚。",
         icon: "fa-bag-shopping",
@@ -77,7 +77,7 @@ const taishinPlans = [
         name: "大筆刷",
         rate: "3.3%",
         merchants: ["誠品", "誠品生活", "誠品線上", "誠品支付"],
-        instruction: "包含誠品生活線上/實體 (大筆刷)。**排除：誠品書店**。",
+        instruction: "包含誠品生活實體 / 線上 (不含誠品書店)。",
         icon: "fa-book-open",
         bank: "Taishin"
     },
@@ -87,7 +87,7 @@ const taishinPlans = [
         rate: "3.3%",
         merchants: [
             "全臺餐飲", "王品瘋Pay", "Uber Eats", "Foodpanda",
-            "拓元售票", "KKTIX", "年代售票", "寬宏售票", "OPENTIX", "FunNow",
+            "拓元售票", "KKTIX", "年代售票", "寬宏售票", "OPENTIX", "OPENTIX 兩廳院文化生活", "FunNow",
             "錢櫃", "好樂迪", "ONCOR", "sing!go", "享溫馨",
             "晶華", "雲朗", "萬豪", "煙波", "老爺", "福華", "漢來", "君悅", "洲際酒店", "寒沐"
         ],
@@ -100,7 +100,7 @@ const taishinPlans = [
         name: "數趣刷",
         rate: "3.3%",
         merchants: [
-            "蝦皮", "momo", "酷澎", "Coupang", "PChome", "淘寶", "Amazon", "東森", "博客來",
+            "蝦皮 (不含海外直送、黃金等貴金屬、遊戲點數、票券消費)", "momo", "酷澎", "Coupang", "PChome (不含商店街、支付連、海外代購、PChome旅遊、儲值、電子票券)", "淘寶", "Amazon", "東森", "博客來",
             "Richart Mart", "PayEasy", "iHerb", "SHEIN", "Farfetch", "Olive Young",
             "知識衛星", "Amazing Talker", "Tutor ABC", "Hahow", "PressPlay",
             "MyCard", "遊戲橘子", "Steam", "PlayStation", "Nintendo", "Netflix", "Disney+",
@@ -115,7 +115,7 @@ const taishinPlans = [
         name: "玩旅刷",
         rate: "3.3%",
         merchants: [
-            "海外消費", "中華航空", "華信航空", "華信", "長榮航空", "星宇航空", "台灣虎航", "國泰航空",
+            "海外消費", "海外消費 (含歐洲國家交易)", "中華航空", "華信航空", "華信", "長榮航空", "星宇航空", "台灣虎航", "國泰航空",
             "立榮航空", "立榮", "樂桃航空", "樂桃", "阿聯酋航空", "阿聯酋", "亞洲航空", "酷航", "捷星航空", "捷星", "新加坡航空",
             "日本航空", "越捷航空", "越捷",
             "Uber", "Grab", "SUICA", "ICOCA", "PASMO", "WOWPASS", "AIRSIM",
@@ -131,7 +131,7 @@ const taishinPlans = [
         name: "假日刷",
         rate: "2%",
         merchants: [],
-        instruction: "週末假日不限通路 (一般消費/保費/LINE Pay)。",
+        instruction: "節假日不限通路 (一般消費/保費/LINE Pay)。",
         icon: "fa-calendar-day",
         bank: "Taishin"
     }
@@ -181,10 +181,10 @@ const cathayPlans = [
             "宏匯廣場", "台茂", "大江", "Big City", "巨城", "中友", "廣三SOGO", "南紡", "耐斯",
             "夢時代", "漢神", "新月廣場", "CITYLINK", "秀泰", "環球", "太平洋百貨", "華泰名品城",
             "SKM Park", "MITSUI OUTLET PARK",
-            "Uber Eats", "Foodpanda", "麥當勞", "星巴克", "路易莎", "康是美", "屈臣氏"
+            "Uber Eats", "Foodpanda", "國內餐飲 (不含餐券)", "麥當勞", "康是美", "屈臣氏"
         ],
         exclusions: ["UNIQLO", "GU", "ZARA", "H&M", "Gap"],
-        instruction: "排除品牌：UNIQLO、GU、ZARA、H&M、Gap (這些屬一般消費或集精選)。",
+        instruction: "不包含店中櫃，如：無印良品｜UNIQLO｜GU｜Gap｜H&M｜ZARA｜lululemon...等。請依刷卡簽單或CUBE App消費資訊中查看，非以發票上列示之商家名稱為依據。",
         icon: "fa-champagne-glasses",
         bank: "Cathay"
     },
@@ -193,7 +193,7 @@ const cathayPlans = [
         name: "樂饗購",
         rate: "3%",
         merchants: ["誠品", "誠品生活"],
-        instruction: "限誠品生活實體 (樂饗購)。**排除：誠品線上、誠品書店**。",
+        instruction: "限誠品生活實體。 (不含：誠品線上、誠品書店)。",
         icon: "fa-book-open",
         bank: "Cathay"
     },
@@ -202,7 +202,6 @@ const cathayPlans = [
         name: "趣旅行",
         rate: "3%",
         merchants: [
-            // 補上遺漏的飯店集團
             "星野集團", "全球迪士尼飯店", "東橫INN",
             "海外實體消費", "東京迪士尼", "大阪環球影城", "USJ", "哈利波特影城",
             "SUICA", "PASMO", "ICOCA", "Uber", "Grab", "台灣高鐵", "台灣大車隊", "yoxi", "iRent", "和運租車", "格上租車",
@@ -210,7 +209,7 @@ const cathayPlans = [
             "Agoda", "Booking.com", "Airbnb", "Trip.com", "Klook", "KKday",
             "雄獅", "易遊網", "可樂", "東南", "五福", "燦星", "山富", "長汎", "鳳凰", "易飛網", "理想", "永利", "三賀"
         ],
-        instruction: "海外實體/訂房/航空。注意：第三方支付(LinePay等)通常不適用。",
+        instruction: "海外實體/訂房/航空。注意：第三方支付 (LinePay等) 通常不適用。",
         icon: "fa-plane-departure",
         bank: "Cathay"
     },
@@ -253,7 +252,7 @@ const cathayPlans = [
             "東京迪士尼樂園", "東京迪士尼", "大阪環球影城", "USJ", "PlayStation", "Nintendo", "巴哈姆特動畫瘋",
             "錢櫃KTV", "錢櫃", "好樂迪KTV", "好樂迪", "星聚點KTV", "星聚點", "享溫馨KTV", "享溫馨"
         ],
-        instruction: "生日當月限定。指定餐廳、KTV、日本樂園享 10% 小樹點。(需切換權益)",
+        instruction: "生日當月限定。指定餐廳、KTV、日本樂園享 10% 小樹點。 (需切換權益)",
         icon: "fa-cake-candles",
         bank: "Cathay"
     },
@@ -265,7 +264,7 @@ const cathayPlans = [
             "新光三越", "Uber Eats", "Klook", "FunNow"
         ],
         exclusions: ["SKM Park Outlets 高雄草衙"],
-        instruction: "生日當月限定。百貨、外送、旅遊享 3.5% 小樹點。(新光三越排除 SKM Park Outlets 高雄草衙)",
+        instruction: "生日當月限定。百貨、外送、旅遊享 3.5% 小樹點。 (新光三越排除 SKM Park Outlets 高雄草衙)",
         icon: "fa-gift",
         bank: "Cathay"
     },

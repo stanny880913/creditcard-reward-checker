@@ -375,16 +375,17 @@ button#searchBtn:active {
     box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
     animation: slideUp 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
     position: relative;
-    overflow: hidden;
+    /* overflow: hidden; */ /* Removing this to allow badges to stick out */
     display: flex;
     flex-direction: column;
     gap: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(0, 0, 0, 0.05);
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    height: 100%; /* Ensure cards in grid have same height */
 }
 
 .result-card:hover {
-    transform: translateY(-8px) scale(1.02);
+    transform: translateY(-8px);
     box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
 }
 
@@ -392,12 +393,15 @@ button#searchBtn:active {
 .result-card::after {
     content: '';
     position: absolute;
-    top: -50%;
-    right: -50%;
+    top: 0;
+    right: 0;
     width: 200px;
     height: 200px;
-    background: radial-gradient(circle, var(--theme-color-light) 0%, transparent 70%);
+    background: radial-gradient(circle at top right, var(--theme-color-light) 0%, transparent 70%);
     opacity: 0.15;
+    pointer-events: none;
+    border-radius: 28px; /* Stay within card rounded corners */
+}
     z-index: 0;
     pointer-events: none;
 }
@@ -505,32 +509,6 @@ button#searchBtn:active {
     color: #444;
     font-weight: 500;
     line-height: 1.5;
-}
-
-.reward-calc-mini {
-    background: linear-gradient(135deg, var(--theme-color-main), var(--theme-color-dark));
-    color: white;
-    padding: 14px 20px;
-    border-radius: 20px;
-    margin-top: 8px;
-    box-shadow: 0 8px 20px -5px var(--theme-color-light);
-}
-
-.reward-calc-header {
-    font-size: 0.75rem;
-    opacity: 0.9;
-    margin-bottom: 4px;
-}
-
-.reward-calc-body {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.reward-calc-amount {
-    font-size: 1.2rem;
-    font-weight: 800;
 }
 
 /* Others Section Updates */
@@ -668,6 +646,7 @@ button#searchBtn:active {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
+    padding-top: 15px; /* Room for the Best Choice badge */
 }
 
 @media (max-width: 600px) {
@@ -748,4 +727,97 @@ button#searchBtn:active {
     background: #f5f5f5;
     padding: 2px 8px;
     border-radius: 4px;
+}
+
+/* --- Added UX Enhancements --- */
+
+/* Result Animations */
+@keyframes slideUpFade {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.result-card {
+    animation: slideUpFade 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.result-card:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+/* Best Choice Badge */
+.best-badge {
+    position: absolute;
+    top: -12px;
+    right: 20px;
+    background: linear-gradient(135deg, #ffd700, #ffa500);
+    color: #000;
+    font-size: 0.75rem;
+    font-weight: 800;
+    padding: 4px 12px;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(255, 165, 0, 0.3);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.result-ca-color: #ffd700;
+    border-width: 2px;
+    border-top-width: 5px; /* Maintain the thick top bar */
+    border: 2px solid #ffd700;
+    box-shadow: var(--shadow-hover), 0 0 20px rgba(255, 215, 0, 0.15);
+}
+
+/* Amount Input focus effect */
+.amount-input-wrapper:focus-within {
+    transform: scale(1.02);
+    transition: transform 0.3s ease;
+}
+
+/* Reward calc animations */
+.reward-calc-mini {
+    background: linear-gradient(135deg, hsl(230 40% 96%), hsl(230 40% 98%));
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    margin-top: 15px;
+    border-left: 4px solid #6c5ce7;
+    animation: fadeIn 0.3s ease-in;
+    color: hsl(var(--text-main)); /* 確保使用深色文字 */
+}
+
+.reward-calc-header {
+    font-size: 0.75rem;
+    color: hsl(var(--text-light));
+    margin-bottom: 4px;
+    font-weight: 500;
+}
+
+.reward-calc-amount {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #6c5ce7; /* 使用紫色強調回饋金額 */
+}
+
+.reward-calc-body i {
+    color: #fdcb6e; /* 金幣顏色 */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Tag active state logic (handled by JS search) */
+.tag:active {
+    background: hsl(var(--brand-accent));
+    color: white;
+    transform: scale(0.95);
 }
