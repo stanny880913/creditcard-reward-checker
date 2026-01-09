@@ -511,6 +511,29 @@ button#searchBtn:active {
     line-height: 1.5;
 }
 
+.merchant-note {
+    background: #fff9eb;
+    padding: 12px 16px;
+    border-radius: 16px;
+    border: 1px solid #fee2b3;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.merchant-note i {
+    color: #d97706;
+    margin-top: 3px;
+    font-size: 0.9rem;
+}
+
+.merchant-note span {
+    font-size: 0.85rem;
+    color: #92400e;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
 /* Others Section Updates */
 .others-section {
     margin-top: 8px;

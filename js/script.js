@@ -8,11 +8,11 @@ if ('serviceWorker' in navigator) {
 
 // Data loaded from data.js
 
-// Combine for Keywords
-const allKeywords = [
+// Combine for Keywords (cleaned up to exclude parenthetical notes for suggestions)
+const allKeywords = [...new Set([
     ...taishinPlans.flatMap(p => p.merchants),
     ...cathayPlans.flatMap(p => p.merchants)
-];
+].map(m => m.includes('(') ? m.split('(')[0].trim() : m))];
 
 // DOM Elements
 const searchInput = document.getElementById('merchantInput');
@@ -184,8 +184,17 @@ function findMatchingPlans(plans, query) {
         if (p.exclusions && p.exclusions.some(ex => query.toLowerCase().includes(ex.toLowerCase()))) {
             return false;
         }
-        // 使用精確比較並去除空白，避免「當勞」模糊匹配到「麥當勞」
-        return p.merchants.some(m => m.trim().toLowerCase() === query.trim().toLowerCase());
+        // 優先精確匹配，或是匹配括號前的名稱（解決「蝦皮 (不含...)」的問題）
+        return p.merchants.some(m => {
+            const normalizedM = m.trim().toLowerCase();
+            const normalizedQ = query.trim().toLowerCase();
+            if (normalizedM === normalizedQ) return true;
+            if (normalizedM.includes('(')) {
+                const baseName = normalizedM.split('(')[0].trim();
+                return baseName === normalizedQ;
+            }
+            return false;
+        });
     });
 
     // if (matches.length === 0) {
@@ -307,6 +316,26 @@ function renderCard(result, bankName, themeClass, query, amount = 0, isBest = fa
     const plan = result.best || result;
     const others = result.others || [];
     
+    // 找出匹配的通路是否有括號備註
+    const matchedMerchant = plan.merchants.find(m => {
+        const normalizedM = m.trim().toLowerCase();
+        const normalizedQ = query.trim().toLowerCase();
+        return normalizedM === normalizedQ || (normalizedM.includes('(') && normalizedM.split('(')[0].trim() === normalizedQ);
+    });
+
+    let merchantNoteHtml = '';
+    if (matchedMerchant && matchedMerchant.includes('(')) {
+        const noteMatch = matchedMerchant.match(/\(([^)]+)\)/);
+        if (noteMatch) {
+            merchantNoteHtml = `
+                <div class="merchant-note">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <span>${noteMatch[1]}</span>
+                </div>
+            `;
+        }
+    }
+
     // 計算實際回饋金額
     let rewardAmountHtml = '';
     if (amount > 0) {
@@ -366,6 +395,8 @@ function renderCard(result, bankName, themeClass, query, amount = 0, isBest = fa
                 </div>
                 <div class="strategy-text">${plan.instruction}</div>
             </div>
+
+            ${merchantNoteHtml}
 
             ${rewardAmountHtml}
             ${othersHtml}
