@@ -25,10 +25,12 @@ const defaultState = document.getElementById('defaultState');
 // Utils
 function debounce(func, timeout = 300) {
     let timer;
-    return (...args) => {
+    const debounced = (...args) => {
         clearTimeout(timer);
         timer = setTimeout(() => { func.apply(this, args); }, timeout);
     };
+    debounced.cancel = () => clearTimeout(timer);
+    return debounced;
 }
 
 // Listeners
@@ -36,29 +38,41 @@ searchInput.addEventListener('input', (e) => {
     // Immediate UI update for Clear Button
     toggleClearBtn(e.target.value);
 });
-searchInput.addEventListener('input', debounce(handleInput, 300));
+
+const debouncedHandleInput = debounce(handleInput, 300);
+searchInput.addEventListener('input', debouncedHandleInput);
+
 // Add Enter key support for mobile keyboards
 searchInput.addEventListener('keyup', (e) => {
     if (e.key === 'Enter') {
+        debouncedHandleInput.cancel();
         performSearch(searchInput.value);
         searchInput.blur(); // Close mobile keyboard
-        suggestionsBox.classList.remove('active'); // Hide suggestions
+        suggestionsBox.classList.remove('active'); 
+        suggestionsBox.classList.add('hidden');
     }
 });
 
 searchBtn.addEventListener('click', () => {
+    debouncedHandleInput.cancel();
     performSearch(searchInput.value);
     searchInput.blur();
     suggestionsBox.classList.remove('active');
+    suggestionsBox.classList.add('hidden');
 });
 clearBtn.addEventListener('click', () => {
     searchInput.value = '';
+    if(amountInput) amountInput.value = ''; // 同步清除金額輸入
     toggleClearBtn('');
     searchInput.focus();
     // Reset state
     if(defaultState) defaultState.classList.remove('hidden');
-    if(resultContainer) resultContainer.classList.add('hidden');
+    if(resultContainer) {
+        resultContainer.classList.add('hidden');
+        resultContainer.innerHTML = ''; // 清空內容確保完全關閉
+    }
     suggestionsBox.classList.remove('active');
+    suggestionsBox.classList.add('hidden');
 });
 
 document.addEventListener('click', (e) => {
@@ -133,18 +147,19 @@ function renderSuggestions(matches, query) {
 function quickSearch(term) {
     if (!term) return;
     
-    // 只填充輸入框，不自動執行搜尋
+    // 取消任何待執行的建議框彈出
+    if (debouncedHandleInput && debouncedHandleInput.cancel) {
+        debouncedHandleInput.cancel();
+    }
+    
+    // 僅填充輸入框，不自動執行搜尋
     searchInput.value = term;
     toggleClearBtn(term);
     
-    // 隱藏建議框
+    // 隱藏建議框與預設狀態
     suggestionsBox.classList.remove('active');
     suggestionsBox.classList.add('hidden');
-    
-    // 隱藏預設狀態
     if(defaultState) defaultState.classList.add('hidden');
-    
-    // 不執行自動搜尋，等待用戶點擊查詢按鈕
 }
 
 // Logic
@@ -162,20 +177,21 @@ function findMatchingPlans(plans, query) {
         if (p.exclusions && p.exclusions.some(ex => query.toLowerCase().includes(ex.toLowerCase()))) {
             return false;
         }
-        return p.merchants.some(m => m.toLowerCase().includes(query.toLowerCase()));
+        // 使用精確比較並去除空白，避免「當勞」模糊匹配到「麥當勞」
+        return p.merchants.some(m => m.trim().toLowerCase() === query.trim().toLowerCase());
     });
 
-    if (matches.length === 0) {
-        const q = query.toLowerCase();
-        if (['吃', '飯', '餐', '飲', 'food', '咖啡', 'cafe'].some(k => q.includes(k))) {
-            const diningPlans = plans.filter(p => p.id.includes('dining') || p.id.includes('shopping') || p.id.includes('birthday'));
-            matches.push(...diningPlans);
-        }
-        else if (['旅', '遊', '住', '宿', 'flight', 'hotel', '航', '機票', 'air'].some(k => q.includes(k))) {
-            const travelPlans = plans.filter(p => p.id.includes('travel'));
-            matches.push(...travelPlans);
-        }
-    }
+    // if (matches.length === 0) {
+    //     const q = query.toLowerCase();
+    //     if (['吃', '飯', '餐', '飲', 'food', '咖啡', 'cafe'].some(k => q.includes(k))) {
+    //         const diningPlans = plans.filter(p => p.id.includes('dining') || p.id.includes('shopping') || p.id.includes('birthday'));
+    //         matches.push(...diningPlans);
+    //     }
+    //     else if (['旅', '遊', '住', '宿', 'flight', 'hotel', '航', '機票', 'air'].some(k => q.includes(k))) {
+    //         const travelPlans = plans.filter(p => p.id.includes('travel'));
+    //         matches.push(...travelPlans);
+    //     }
+    // }
 
     if (matches.length === 0) return { best: null, others: [] };
 
@@ -216,8 +232,19 @@ function performSearch(query) {
 function renderComparison(query, taishin, cathay, amount = 0) {
     resultContainer.classList.remove('hidden');
     
-    const taishinCard = renderCard(taishin, 'Taishin', 'taishin-theme', query, amount);
-    const cathayCard = renderCard(cathay, 'Cathay Cube', 'cathay-theme', query, amount);
+    // Helper to get max rate for comparison
+    const getRateValue = (res) => {
+        const plan = res.best || res;
+        if (!plan || !plan.rate) return 0;
+        const nums = plan.rate.match(/[\d.]+/g);
+        return nums ? Math.max(...nums.map(n => parseFloat(n))) : 0;
+    };
+
+    const tRate = getRateValue(taishin);
+    const cRate = getRateValue(cathay);
+    
+    const taishinCard = renderCard(taishin, 'Taishin', 'taishin-theme', query, amount, tRate > cRate && tRate > 0);
+    const cathayCard = renderCard(cathay, 'Cathay Cube', 'cathay-theme', query, amount, cRate > tRate && cRate > 0);
 
     resultContainer.innerHTML = `
         <div class="result-grid">
@@ -227,7 +254,7 @@ function renderComparison(query, taishin, cathay, amount = 0) {
     `;
 }
 
-function renderCard(result, bankName, themeClass, query, amount = 0) {
+function renderCard(result, bankName, themeClass, query, amount = 0, isBest = false) {
     if (!result || (!result.best && !result.id)) {
         // Fallback Recommendation
         let recommendationHtml = '';
@@ -276,7 +303,7 @@ function renderCard(result, bankName, themeClass, query, amount = 0) {
     // 計算實際回饋金額
     let rewardAmountHtml = '';
     if (amount > 0) {
-        const rateValue = parseFloat(plan.rate.replace('%', '')) / 100;
+        const rateValue = (parseFloat(plan.rate.match(/[\d.]+/)) || 0) / 100;
         const rewardAmount = Math.floor(amount * rateValue);
         rewardAmountHtml = `
             <div class="reward-calc-mini">
@@ -306,8 +333,11 @@ function renderCard(result, bankName, themeClass, query, amount = 0) {
 
     const categoryText = plan.id.includes('dining') || plan.id.includes('shopping') || plan.id.includes('birthday') ? '餐飲/購物' : '指定通路';
 
+    const bestBadge = isBest ? `<div class="best-badge"><i class="fa-solid fa-crown"></i> 最佳推薦</div>` : '';
+
     return `
-        <div class="result-card ${themeClass}">
+        <div class="result-card ${themeClass} ${isBest ? 'is-best' : ''}">
+            ${bestBadge}
             <div class="card-title-area">
                 <div class="bank-tag">${bankName}</div>
                 <div class="merchant-name">${plan.name}</div>

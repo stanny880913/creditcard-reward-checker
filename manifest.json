@@ -1,6 +1,6 @@
 {
   "name": "Rewards Checker",
-  "short_name": "Rewards",
+  "short_name": "Rewards Checker",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#ffffff",
