@@ -34,6 +34,13 @@ function debounce(func, timeout = 300) {
 }
 
 // Listeners
+searchInput.addEventListener('focus', () => {
+    // Mobile UX: Scroll to top of search area when focusing to give more room for suggestions
+    setTimeout(() => {
+        searchInput.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 300); // Wait for keyboard to start appearing
+});
+
 searchInput.addEventListener('input', (e) => {
     // Immediate UI update for Clear Button
     toggleClearBtn(e.target.value);
