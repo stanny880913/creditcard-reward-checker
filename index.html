@@ -68,22 +68,36 @@
             <div id="suggestions" class="suggestions-box hidden"></div>
           </div>
 
-          <!-- 金額輸入框 -->
-          <div class="amount-input-wrapper">
-            <div class="amount-label">
-              <i class="fa-solid fa-calculator"></i>
-              <span>消費金額</span>
-              <span class="optional">(選填)</span>
-            </div>
-            <div class="amount-input-group">
-              <input
-                type="number"
-                id="amountInput"
-                placeholder="金額（如：500）"
-                min="0"
-                step="1"
-              />
-              <span class="currency-unit">元</span>
+          <!-- 卡片持有設定 -->
+          <div class="card-toggle-area">
+            <span class="toggle-label"
+              ><i class="fa-solid fa-filter"></i> 我有這些卡：</span
+            >
+            <div class="toggle-group">
+              <label class="toggle-item">
+                <input type="checkbox" id="have-taishin" checked />
+                <span class="toggle-btn taishin">
+                  <i class="fa-solid fa-circle-check icon-check"></i>
+                  <i class="fa-solid fa-circle-xmark icon-uncheck"></i>
+                  台新 Richart
+                </span>
+              </label>
+              <label class="toggle-item">
+                <input type="checkbox" id="have-cathay" checked />
+                <span class="toggle-btn cathay">
+                  <i class="fa-solid fa-circle-check icon-check"></i>
+                  <i class="fa-solid fa-circle-xmark icon-uncheck"></i>
+                  國泰 CUBE
+                </span>
+              </label>
+              <label class="toggle-item">
+                <input type="checkbox" id="have-yushan" checked />
+                <span class="toggle-btn yushan">
+                  <i class="fa-solid fa-circle-check icon-check"></i>
+                  <i class="fa-solid fa-circle-xmark icon-uncheck"></i>
+                  玉山 Uni
+                </span>
+              </label>
             </div>
           </div>
         </div>
@@ -109,7 +123,38 @@
       </main>
 
       <footer>
-        <p>© 2026 Rewards Checker | Unofficial Tool</p>
+        <div class="footer-content">
+          <div class="footer-main">
+            <span class="author-tag"
+              >Created by <strong>Stanny Ho</strong></span
+            >
+            <div class="social-group">
+              <a
+                href="https://www.linkedin.com/in/min-hsuan-ho-stanny-ho/"
+                target="_blank"
+                rel="noopener"
+                class="social-link linkedin"
+                title="LinkedIn"
+              >
+                <i class="fa-brands fa-linkedin-in"></i>
+              </a>
+              <a
+                href="https://www.instagram.com/1999_9_13/"
+                target="_blank"
+                rel="noopener"
+                class="social-link instagram"
+                title="Instagram"
+              >
+                <i class="fa-brands fa-instagram"></i>
+              </a>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <p class="copyright">© 2026 Rewards Checker</p>
+            <span class="divider">•</span>
+            <p class="disclaimer">內容僅供參考，以銀行官網為準</p>
+          </div>
+        </div>
       </footer>
     </div>
 

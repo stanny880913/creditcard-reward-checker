@@ -287,3 +287,131 @@ const cathayPlans = [
         bank: "Cathay"
     }
 ];
+
+const yushanPlans = [
+    {
+        id: "yushan_mobile_pay",
+        name: "行動支付",
+        rate: "最高4.5%",
+        merchants: [
+            "玉山Wallet電子支付", "LINE Pay", "全支付", "街口支付", "悠遊付", "全盈+PAY", "iPASS MONEY", "icash Pay"
+        ],
+        instruction: "UP方案最高4.5%。限指定支付。排除超商、全聯、稅費。LINE Pay須有指定請款名稱。玉山Wallet限國內TWQR/台灣Pay(排除PayPay、學費、代扣繳)。",
+        icon: "fa-mobile-screen",
+        bank: "Yushan"
+    },
+    {
+        id: "yushan_ec",
+        name: "電商平台",
+        rate: "最高4.5%",
+        merchants: [
+            "momo購物網", "momo", "蝦皮購物", "淘寶", "Coupang酷澎", "蝦皮", "淘寶", "Coupang", "酷澎"
+        ],
+        instruction: "UP方案最高4.5%。限實體卡/Apple Pay/GP/SP，排除第三方支付(如LINE Pay、街口)。蝦皮不含跨境。momo含TV購物/旅遊。淘寶含Lite。Coupang含火箭速配/跨境。",
+        icon: "fa-cart-shopping",
+        bank: "Yushan"
+    },
+    {
+        id: "yushan_department_store",
+        name: "國內百貨",
+        rate: "最高4.5%",
+        merchants: [
+            "新光三越百貨", "新光三越", "台北101", "華泰名品城", "三井OUTLET", "MITSUI OUTLET PARK", "京站", "美麗華", "秀泰生活", "LaLaport", "統領廣場", "采盟", "昇恆昌", "統一時代百貨台北店", "統一時代", "DREAM PLAZA", "遠東百貨集團", "遠東百貨", "漢神百貨", "微風百貨", "微風", "誠品生活", "誠品"
+        ],
+        instruction: "UP方案最高4.5%。限實體卡/AP/GP/SP。排除3rd支付(如LINE Pay)、店中獨立店(如A13 Apple)。含SOGO、Garden City、skm pay/online、誠品線上。漢神不含巨蛋。",
+        icon: "fa-bag-shopping",
+        bank: "Yushan"
+    },
+    {
+        id: "yushan_lifestyle",
+        name: "生活採買",
+        rate: "最高4.5%",
+        merchants: [
+            "家樂福", "屈臣氏", "康是美", "特力屋", "HOLA", "hoi好好生活", "UNIQLO", "NET", "大樹藥局", "丁丁藥妝"
+        ],
+        instruction: "UP方案最高4.5%。限實體卡/AP/GP/SP。僅限國內。UNIQLO/NET僅限街邊獨立店，百貨商場店中店不適用。",
+        icon: "fa-basket-shopping",
+        bank: "Yushan"
+    },
+    {
+        id: "yushan_dining",
+        name: "餐飲美食",
+        rate: "最高4.5%",
+        merchants: [
+            "Uber Eats", "Foodpanda", "EZTABLE", "王品瘋Pay", 
+            "饗賓餐飲", "官網購買餐券", "饗A Joy", "饗食天堂", "果然匯", "小福利", "饗饗", "旭集", "開飯", "饗泰多", "真珠",
+            "瓦城料理", "瓦城", "非常泰", "大心", "1010", "時時香", "BOBO",
+            "乾杯燒肉", "乾杯燒肉居酒屋", "老乾杯",
+            "漢來美食", "漢來海港", "島語", "漢來蔬食", "漢來名人坊", "東方樓", "漢來上海湯包", "溜溜酸菜魚", "上菜", "翠園", "漢來軒", "焰", "PAVO", "精緻海鮮火鍋", "弁慶", "福園", "日日烘焙坊", "糕餅小舖", "台北漢來", "高雄漢來", "花季渡假飯店", "Hi Lai Café", "台北/高雄漢來大飯店", "花季渡假飯店",
+            "鼎王餐飲", "鼎王麻辣鍋", "麻一點", "無老鍋",
+            "爭鮮餐飲", "爭鮮迴轉壽司", "爭鮮PLUS", "定食8", "爭鮮gogo", "MAGiC TOUCH"
+        ],
+        instruction: "UP方案最高4.5%。限實體卡/Apple Pay/Google Pay/Samsung Pay。王品須用瘋Pay支付。漢來含漢來/花季飯店。排除百貨商場/美食街/飯店內之非獨立店簽單。",
+        icon: "fa-utensils",
+        bank: "Yushan",
+    },
+    {
+        id: "yushan_traffic",
+        name: "加油交通",
+        rate: "最高4.5%",
+        merchants: [
+            "台灣中油 (限直營店)", "台灣中油", "55688", "台灣大車隊", "機場接送", "台鐵", "高鐵", "Uber", "Yoxi"
+        ],
+        instruction: "UP方案最高4.5%。限實體卡/Apple Pay/Google Pay/Samsung Pay。中油限直營店(含中油Pay)。台鐵/高鐵限官方通路購票(排除超商、感應扣款、聯票)。Uber限國內TWD交易。",
+        icon: "fa-car",
+        bank: "Yushan"
+    },
+    {
+        id: "yushan_travel",
+        name: "航空旅遊",
+        rate: "最高4.5%",
+        merchants: [
+            "中華航空", "長榮航空", "日本航空", "台灣虎航", "樂桃航空", "酷航", "Trip.com", "Booking.com", "Hotels.com", "AsiaYo", "Expedia", "KKday", "Klook", "雄獅旅遊", "雄獅", "可樂旅遊", "可樂", "東南旅遊", "東南", "Agoda"
+        ],
+        instruction: "UP方案最高4.5%。限實體卡/Apple Pay/Google Pay/Samsung Pay。航空限官網/臨櫃購票(含機上免稅)。訂房限線上付款(排除到店付款)。Klook限國內TWD交易。雄獅含旅天下(排除其加盟商)。",
+        icon: "fa-plane",
+        bank: "Yushan"
+    },
+    {
+        id: "yushan_overseas",
+        name: "國外實體",
+        rate: "最高4.5%",
+        merchants: [
+            "日本", "韓國", "泰國", "越南", "新加坡", "馬來西亞", "菲律賓", "中國", "香港", "澳門", "美國", "加拿大", "英國", "法國", "德國", "義大利", "澳洲"
+        ],
+        instruction: "UP方案最高4.5%。限實體卡/Apple Pay/Google Pay/Samsung Pay。排除網路交易、幣別為台幣或地點在台灣之交易。金額不含1.5%手續費。",
+        icon: "fa-globe",
+        bank: "Yushan"
+    },
+    {
+        id: "yushan_selected",
+        name: "精選商家",
+        rate: "最高4.5%",
+        merchants: [
+            "Apple直營店", "小米台灣", "小米", "全國電子", "燦坤", "迪卡儂"
+        ],
+        instruction: "UP方案最高4.5%。限實體卡/Apple Pay/Google Pay/Samsung Pay。小米含通路不含商城(蝦皮/momo等)。全國/燦坤/迪卡儂含官網購物。排除第三方支付。",
+        icon: "fa-store",
+        bank: "Yushan"
+    },
+    {
+        id: "yushan_esg",
+        name: "ESG消費",
+        rate: "最高4.5%",
+        merchants: [
+            "玉山Wallet愛心捐款", "特斯拉", "Tesla", "Gogoro電池資費", "Gogoro", "YouBike 2.0", "YouBike",
+            "弘道老人福利基金會", "華山社會福利慈善事業基金會", "伊甸社會福利基金會", "喜憨兒社會福利基金會", 
+            "社團法人中華民國保護動物協會", "勵馨社會福利事業基金會", 
+            "財團法人私立天主教中華聖母社會福利慈善事業基金會", "財團法人羅慧夫顱顏基金會", 
+            "社團法人臺灣雷特氏症病友關懷協會", "財團法人陽光社會福利基金會", 
+            "社團法人台灣微客公益行動協會", "財團法人台北市失親兒福利基金會", 
+            "社團法人中華民國失智者照顧協會", "財團法人台北市私立雙連視障關懷基金會", 
+            "社團法人台灣同伴動物扶助協會", "社團法人台灣懷生相信動物協會", 
+            "財團法人普仁青年關懷基金會", "社團法人中華民國荒野保護協會", 
+            "社團法人台灣之心愛護動物協會"
+        ],
+        instruction: "UP方案最高4.5%。限實體卡/Apple Pay/Google Pay/Samsung Pay。捐款限Wallet愛心捐款專區。YouBike限App/掃碼租借(不含悠遊卡)。",
+        icon: "fa-seedling",
+        bank: "Yushan"
+    }
+];
