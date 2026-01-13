@@ -11,8 +11,21 @@ if ('serviceWorker' in navigator) {
 // Combine for Keywords (cleaned up to exclude parenthetical notes for suggestions)
 const allKeywords = [...new Set([
     ...taishinPlans.flatMap(p => p.merchants),
-    ...cathayPlans.flatMap(p => p.merchants)
-].map(m => m.includes('(') ? m.split('(')[0].trim() : m))];
+    ...cathayPlans.flatMap(p => p.merchants),
+    ...yushanPlans.flatMap(p => p.merchants)
+].map(m => {
+    // 移除括號備註
+    let clean = m.includes('(') ? m.split('(')[0].trim() : m;
+    
+    // 標準化常見的重複項目 (別名縮減)
+    // 如果商家名包含 "momo購物網"，我們統一在下拉選單顯示 "momo" 即可
+    // 這樣資料庫可以存不同的名字，但下拉選單不會重複
+    if (clean.toLowerCase() === 'momo購物網') return 'momo';
+    if (clean.toLowerCase() === 'pchome線上購物') return 'PChome';
+    if (clean.toLowerCase() === 'youtube premium') return 'YouTube';
+    
+    return clean;
+}))].sort((a, b) => a.localeCompare(b, 'zh-Hant'));
 
 // DOM Elements
 const searchInput = document.getElementById('merchantInput');
@@ -21,6 +34,42 @@ const clearBtn = document.getElementById('clearBtn');
 const suggestionsBox = document.getElementById('suggestions');
 const resultContainer = document.getElementById('resultContainer');
 const defaultState = document.getElementById('defaultState');
+
+// Card Visibility Logic
+const toggles = {
+    taishin: document.getElementById('have-taishin'),
+    cathay: document.getElementById('have-cathay'),
+    yushan: document.getElementById('have-yushan')
+};
+
+// Load saved preferences
+function loadPreferences() {
+    const prefs = JSON.parse(localStorage.getItem('cardPreferences') || '{}');
+    Object.keys(toggles).forEach(key => {
+        if (prefs[key] !== undefined) {
+            toggles[key].checked = prefs[key];
+        }
+    });
+}
+
+function savePreferences() {
+    const prefs = {};
+    Object.keys(toggles).forEach(key => {
+        prefs[key] = toggles[key].checked;
+    });
+    localStorage.setItem('cardPreferences', JSON.stringify(prefs));
+    // Re-render if there's a result
+    if (searchInput.value) {
+        performSearch(searchInput.value);
+    }
+}
+
+// Attach listeners to toggles
+Object.values(toggles).forEach(toggle => {
+    toggle.addEventListener('change', savePreferences);
+});
+
+loadPreferences();
 
 // Utils
 function debounce(func, timeout = 300) {
@@ -69,7 +118,6 @@ searchBtn.addEventListener('click', () => {
 });
 clearBtn.addEventListener('click', () => {
     searchInput.value = '';
-    if(amountInput) amountInput.value = ''; // 同步清除金額輸入
     toggleClearBtn('');
     searchInput.focus();
     // Reset state
@@ -159,7 +207,7 @@ function quickSearch(term) {
         debouncedHandleInput.cancel();
     }
     
-    // 僅填充輸入框，不自動執行搜尋
+    // 填充輸入框並自動執行搜尋
     searchInput.value = term;
     toggleClearBtn(term);
     
@@ -167,6 +215,9 @@ function quickSearch(term) {
     suggestionsBox.classList.remove('active');
     suggestionsBox.classList.add('hidden');
     if(defaultState) defaultState.classList.add('hidden');
+
+    performSearch(term);
+    searchInput.blur(); // 收起手機鍵盤
 }
 
 // Logic
@@ -181,18 +232,33 @@ function findMatchingPlans(plans, query) {
     }
 
     let matches = plans.filter(p => {
-        if (p.exclusions && p.exclusions.some(ex => query.toLowerCase().includes(ex.toLowerCase()))) {
+        const normalizedQ = query.trim().toLowerCase();
+        if (p.exclusions && p.exclusions.some(ex => normalizedQ.includes(ex.toLowerCase()))) {
             return false;
         }
+        
         // 優先精確匹配，或是匹配括號前的名稱（解決「蝦皮 (不含...)」的問題）
         return p.merchants.some(m => {
             const normalizedM = m.trim().toLowerCase();
-            const normalizedQ = query.trim().toLowerCase();
-            if (normalizedM === normalizedQ) return true;
-            if (normalizedM.includes('(')) {
-                const baseName = normalizedM.split('(')[0].trim();
-                return baseName === normalizedQ;
+            const baseM = normalizedM.includes('(') ? normalizedM.split('(')[0].trim() : normalizedM;
+            
+            // 1. 精確匹配
+            if (baseM === normalizedQ) return true;
+            
+            // 2. 雙向包含匹配 (解決 "momo" vs "momo購物網" 的問題)
+            // 修改：如果是 2 位數的純英文/數字，限制必須是開頭匹配，避免 "DE" 匹配到 "Claude"
+            if (normalizedQ.length >= 2) {
+                const isShortAlpha = /^[a-z0-9]+$/.test(normalizedQ) && normalizedQ.length === 2;
+                
+                if (isShortAlpha) {
+                    // 短英文/數字：限開頭匹配 (例如 "AP" 匹配 "Apple") 或 商家名包含英文單字開頭
+                    if (baseM.startsWith(normalizedQ) || baseM.includes(' ' + normalizedQ)) return true;
+                } else if (baseM.includes(normalizedQ) || normalizedQ.includes(baseM)) {
+                    // 中文或長英文：維持原本的雙向包含
+                    return true;
+                }
             }
+            
             return false;
         });
     });
@@ -237,17 +303,19 @@ function performSearch(query) {
 
     const taishinResult = findMatchingPlans(taishinPlans, query);
     const cathayResult = findMatchingPlans(cathayPlans, query);
+    const yushanResult = findMatchingPlans(yushanPlans, query);
     
-    // 取得金額輸入框的值（選填）
-    const amountInput = document.getElementById('amountInput');
-    const amount = amountInput ? parseFloat(amountInput.value) || 0 : 0;
-
-    renderComparison(query, taishinResult, cathayResult, amount);
+    renderComparison(query, taishinResult, cathayResult, yushanResult);
 }
 
-function renderComparison(query, taishin, cathay, amount = 0) {
+function renderComparison(query, taishin, cathay, yushan) {
     resultContainer.classList.remove('hidden');
     
+    // Check which cards user has
+    const hasTaishin = toggles.taishin.checked;
+    const hasCathay = toggles.cathay.checked;
+    const hasYushan = toggles.yushan.checked;
+
     // Helper to get max rate for comparison
     const getRateValue = (res) => {
         const plan = res.best || res;
@@ -256,21 +324,62 @@ function renderComparison(query, taishin, cathay, amount = 0) {
         return nums ? Math.max(...nums.map(n => parseFloat(n))) : 0;
     };
 
-    const tRate = getRateValue(taishin);
-    const cRate = getRateValue(cathay);
+    // Calculate rates only for cards the user HAS
+    const tRate = hasTaishin ? getRateValue(taishin) : -1;
+    const cRate = hasCathay ? getRateValue(cathay) : -1;
+    const yRate = hasYushan ? getRateValue(yushan) : -1;
     
-    const taishinCard = renderCard(taishin, 'Taishin', 'taishin-theme', query, amount, tRate > cRate && tRate > 0);
-    const cathayCard = renderCard(cathay, 'Cathay Cube', 'cathay-theme', query, amount, cRate > tRate && cRate > 0);
+    // Determine best rate among ACTIVE cards
+    const maxRate = Math.max(tRate, cRate, yRate);
+
+    const cards = [];
+    
+    if (hasTaishin) {
+        cards.push({ 
+            html: renderCard(taishin, '台新信用卡', 'taishin-theme', query, tRate === maxRate && tRate > 0),
+            rate: tRate 
+        });
+    }
+    
+    if (hasCathay) {
+        cards.push({ 
+            html: renderCard(cathay, '國泰Cube', 'cathay-theme', query, cRate === maxRate && cRate > 0),
+            rate: cRate 
+        });
+    }
+    
+    if (hasYushan) {
+        cards.push({ 
+            html: renderCard(yushan, '玉山Unicard', 'yushan-theme', query, yRate === maxRate && yRate > 0),
+            rate: yRate 
+        });
+    }
+
+    // 從高到低排序
+    cards.sort((a, b) => b.rate - a.rate);
+
+    if (cards.length === 0) {
+        resultContainer.innerHTML = `
+            <div class="no-cards-msg">
+                <i class="fa-solid fa-circle-info"></i>
+                <p>請先在上方設定您持有的信用卡</p>
+            </div>
+        `;
+        return;
+    }
 
     resultContainer.innerHTML = `
         <div class="result-grid">
-            ${taishinCard}
-            ${cathayCard}
+            ${cards.map(c => c.html).join('')}
         </div>
+        ${cards.length > 1 ? `
+        <div class="scroll-hint">
+            <i class="fa-solid fa-arrows-left-right"></i> 左右滑動比較更多卡片
+        </div>` : ''}
     `;
 }
 
-function renderCard(result, bankName, themeClass, query, amount = 0, isBest = false) {
+function renderCard(result, bankName, themeClass, query, isBest = false) {
     if (!result || (!result.best && !result.id)) {
         // Fallback Recommendation
         let recommendationHtml = '';
@@ -295,6 +404,15 @@ function renderCard(result, bankName, themeClass, query, amount = 0, isBest = fa
                  <div class="other-plan-row">
                     <div class="other-name">一般消費 (集精選)</div>
                     <div class="other-rate">0.3%</div>
+                </div>
+            </div>`;
+        } else if (bankName === '玉山 Unicard') {
+             recommendationHtml = `
+            <div class="others-section">
+                 <div class="others-title">💡 一般消費權益</div>
+                 <div class="other-plan-row">
+                    <div class="other-name">一般消費 (UP方案)</div>
+                    <div class="other-rate">1%</div>
                 </div>
             </div>`;
         }
@@ -336,22 +454,6 @@ function renderCard(result, bankName, themeClass, query, amount = 0, isBest = fa
         }
     }
 
-    // 計算實際回饋金額
-    let rewardAmountHtml = '';
-    if (amount > 0) {
-        const rateValue = (parseFloat(plan.rate.match(/[\d.]+/)) || 0) / 100;
-        const rewardAmount = Math.floor(amount * rateValue);
-        rewardAmountHtml = `
-            <div class="reward-calc-mini">
-                <div class="reward-calc-header">預估回饋 (消費 NT$ ${amount.toLocaleString()})</div>
-                <div class="reward-calc-body">
-                    <div class="reward-calc-amount">NT$ ${rewardAmount.toLocaleString()}</div>
-                    <i class="fa-solid fa-coins"></i>
-                </div>
-            </div>
-        `;
-    }
-
     let othersHtml = '';
     if (others && others.length > 0) {
         othersHtml = `
@@ -367,7 +469,14 @@ function renderCard(result, bankName, themeClass, query, amount = 0, isBest = fa
         `;
     }
 
-    const categoryText = plan.id.includes('dining') || plan.id.includes('shopping') || plan.id.includes('birthday') ? '餐飲/購物' : '指定通路';
+    const categoryText = 
+        plan.id.includes('dining') || 
+        plan.id.includes('shopping') || 
+        plan.id.includes('birthday') ||
+        plan.id.includes('department') ||
+        plan.id.includes('ec') ||
+        plan.id.includes('mobile_pay')
+        ? '餐飲/中心/電商' : '指定通路';
 
     const bestBadge = isBest ? `<div class="best-badge"><i class="fa-solid fa-crown"></i> 最佳推薦</div>` : '';
 
@@ -398,7 +507,6 @@ function renderCard(result, bankName, themeClass, query, amount = 0, isBest = fa
 
             ${merchantNoteHtml}
 
-            ${rewardAmountHtml}
             ${othersHtml}
         </div>
     `;
