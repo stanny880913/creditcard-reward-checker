@@ -5,7 +5,7 @@ const taishinPlans = [
         name: "Pay著刷-台新Pay (Taishin Pay)",
         rate: "3.8%",
         merchants: [
-            "Taishin Pay", "新光三越", "7-11", "全家", "Richart Mart", "康是美", "IKEA", "NET"
+            "Taishin Pay", "新光三越", "7-11", "全家", "Richart Mart", "康是美", "IKEA", "NET", "Ok", "萊爾富", "小北百貨", "楓康超市", "九乘九文具", "光南", "ATT", "愛迪達", "Adidas", "摩曼頓", "台北捷運", "55688", "新北捷運", "路易莎", "Lousia coffee", "漢堡王", "Burger King", "屋馬", "茶六", "涮屋馬", "金韓食"
         ],
         instruction: "限使用 \"台新Pay\" 綁定支付。",
         icon: "fa-mobile-screen",
