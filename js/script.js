@@ -253,9 +253,28 @@ function findMatchingPlans(plans, query) {
                 if (isShortAlpha) {
                     // 短英文/數字：限開頭匹配 (例如 "AP" 匹配 "Apple") 或 商家名包含英文單字開頭
                     if (baseM.startsWith(normalizedQ) || baseM.includes(' ' + normalizedQ)) return true;
-                } else if (baseM.includes(normalizedQ) || normalizedQ.includes(baseM)) {
-                    // 中文或長英文：維持原本的雙向包含
-                    return true;
+                } else {
+                    // 一般情況：
+                    // 1. Merchant 包含 Query (最常見)
+                    if (baseM.includes(normalizedQ)) return true;
+                    
+                    // 2. Query 包含 Merchant (反向搜索，如 "momo購物網" 找 "momo")
+                    if (normalizedQ.includes(baseM)) {
+                        // 針對純 ASCII (英文/數字) 的 Merchant 名稱進行邊界檢查
+                        // 防止 "ok" 匹配 "booking", "net" 匹配 "netflix"
+                        const isAscii = /^[\x00-\x7F]+$/.test(baseM);
+                        if (isAscii) {
+                            try {
+                                const escapedBaseM = baseM.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                                const boundaryRegex = new RegExp(`\\b${escapedBaseM}\\b`, 'i');
+                                return boundaryRegex.test(normalizedQ);
+                            } catch (e) {
+                                return true;
+                            }
+                        }
+                        // 非 ASCII (中文)，直接允許包含匹配
+                        return true;
+                    }
                 }
             }
             
