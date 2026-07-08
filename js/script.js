@@ -403,7 +403,7 @@ function renderCard(result, bankName, themeClass, query, isBest = false) {
         // Fallback Recommendation
         let recommendationHtml = '';
         
-        if (bankName === 'Taishin') {
+        if (bankName === '台新信用卡') {
             recommendationHtml = `
             <div class="others-section">
                 <div class="others-title">💡 推薦替代方案 (若支援)</div>
@@ -416,16 +416,16 @@ function renderCard(result, bankName, themeClass, query, isBest = false) {
                     <div class="other-rate">2%</div>
                 </div>
             </div>`;
-        } else if (bankName === 'Cathay Cube') {
+        } else if (bankName === '國泰Cube') {
              recommendationHtml = `
             <div class="others-section">
                  <div class="others-title">💡 一般消費權益</div>
                  <div class="other-plan-row">
-                    <div class="other-name">一般消費 (集精選)</div>
+                    <div class="other-name">一般消費 (未選定加碼方案)</div>
                     <div class="other-rate">0.3%</div>
                 </div>
             </div>`;
-        } else if (bankName === '玉山 Unicard') {
+        } else if (bankName === '玉山Unicard') {
              recommendationHtml = `
             <div class="others-section">
                  <div class="others-title">💡 一般消費權益</div>
